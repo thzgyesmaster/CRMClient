@@ -8,25 +8,24 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="
-            http://www.springframework.org/schema/beans
-            http://www.springframework.org/schema/beans/spring-beans.xsd
-            http://www.springframework.org/schema/context
-            http://www.springframework.org/schema/context/spring-context.xsd
-            http://www.springframework.org/schema/tx
-            http://www.springframework.org/schema/tx/spring-tx.xsd
-            http://www.springframework.org/schema/aop
-            http://www.springframework.org/schema/aop/spring-aop.xsd
-            http://www.springframework.org/schema/mvc
-            http://www.springframework.org/schema/mvc/spring-mvc.xsd
-            http://www.springframework.org/schema/util
-            http://www.springframework.org/schema/util/spring-util.xsd">
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/util
+http://www.springframework.org/schema/util/spring-util.xsd">
     <!-- dispatcherServlet截获所有URL请求 -->
-
     <mvc:default-servlet-handler />
     <!-- spring mvc 扫描包下的controller -->
-    <context:component-scan base-package="com.lifu.crm.web.controller"/>
-    <context:component-scan base-package="com.lifu.crm.settings.web.controller"/>
-    <context:component-scan base-package="com.lifu.crm.workbench.web.controller"/>
+    <context:component-scan base-package="com.bjpowernode.crm.web.controller"/>
+    <context:component-scan base-package="com.bjpowernode.crm.settings.web.controller"/>
+    <context:component-scan base-package="com.bjpowernode.crm.workbench.web.controller"/>
     <!-- 配置注解驱动 -->
     <mvc:annotation-driven/>
     <!-- 配置视图解析器 -->
@@ -45,7 +44,7 @@
             <mvc:exclude-mapping path="/settings/qx/user/toLogin.do"/>
             <mvc:exclude-mapping path="/settings/qx/user/login.do"/>
             <!--拦截器类-->
-            <bean class="com.lifu.crm.settings.web.interceptor.LoginInterceptor"/>
+            <bean class="com.bjpowernode.crm.settings.web.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

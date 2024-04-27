@@ -6,13 +6,10 @@
     <settings>
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
-
     <typeAliases>
-        <package name="com.lifu.crm.model"/>
+        <package name="com.bjpowernode.crm.model"/>
     </typeAliases>
-
     <mappers>
-        <package name="com.lifu.crm.mapper"/>
+        <package name="com.bjpowernode.crm.mapper"/>
     </mappers>
-
 </configuration>
