@@ -59,7 +59,7 @@ public interface UserMapper {
      * @param map
      * @return
      */
-    User selectUserByLoginActAndPwd(Map<String, Object> map);
+    User selectUserByLoginActAndPwd(Map<String,Object> map);
 
     /**
      * 查询所有的用户
