@@ -258,7 +258,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 							</div>
 							<label for="edit-company" class="col-sm-2 control-label">公司<span style="font-size: 15px; color: red;">*</span></label>
 							<div class="col-sm-10" style="width: 300px;">
-								<input type="text" class="form-control" id="edit-company" value="动力节点">
+								<input type="text" class="form-control" id="edit-company" value="lifu">
 							</div>
 						</div>
 						
@@ -485,7 +485,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 						<tr>
 							<td><input type="checkbox" /></td>
 							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/clue/detailClue.do?id=a67c52e8702e4a4e89ab47d1751fc78b';">张三教授</a></td>
-							<td>动力节点</td>
+							<td>lifu</td>
 							<td>010-84846003</td>
 							<td>12345678901</td>
 							<td>广告</td>
@@ -495,7 +495,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
                         <tr class="active">
                             <td><input type="checkbox" /></td>
                             <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">李四先生</a></td>
-                            <td>动力节点</td>
+                            <td>lifu</td>
                             <td>010-84846003</td>
                             <td>12345678901</td>
                             <td>广告</td>
