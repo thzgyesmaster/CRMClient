@@ -220,24 +220,25 @@
   </select>
 
     <delete id="deleteActivityByIds" parameterType="string">
-      delete from tbl_activity where id in
+      delete from tbl_activity
+      where id in
       <foreach collection="array" item="id" separator="," open="(" close=")">
-          #{id}
+        #{id}
       </foreach>
     </delete>
 
-    <select id="selectActivityById" parameterType="string" resultMap="BaseResultMap">
+    <select id="selectActivityById" resultMap="BaseResultMap">
       select
       <include refid="Base_Column_List"/>
       from tbl_activity
-      where id=#{id}
+      where id = #{id}
     </select>
 
     <update id="updateActivity" parameterType="com.bjpowernode.crm.workbench.domain.Activity">
-       update tbl_activity
-       set owner=#{owner},name=#{name},start_date=#{startDate},end_date=#{endDate},cost=#{cost},description=#{description},
-           edit_time=#{editTime},edit_by=#{editBy}
-      where id=#{id}
+      update tbl_activity
+      set id=#{id},owner=#{owner},name=#{name},start_date=#{startDate},end_date=#{endDate},cost=#{cost},
+          description=#{description},edit_time=#{editTime},edit_by=#{editBy}
+      where id = #{id}
     </update>
 
   <select id="selectAllActivitys" resultMap="BaseResultMap">

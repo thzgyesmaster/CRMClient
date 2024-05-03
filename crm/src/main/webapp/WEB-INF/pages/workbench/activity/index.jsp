@@ -116,23 +116,9 @@
 			//给"全选"按钮添加单击事件
 			$("#chckAll").click(function () {
 				//如果"全选"按钮是选中状态，则列表中所有checkbox都选中
-				/*if(this.checked==true){
-                    $("#tBody input[type='checkbox']").prop("checked",true);
-                }else{
-                    $("#tBody input[type='checkbox']").prop("checked",false);
-                }*/
-
 				$("#tBody input[type='checkbox']").prop("checked",this.checked);
 			});
 
-			/*$("#tBody input[type='checkbox']").click(function () {
-                //如果列表中的所有checkbox都选中，则"全选"按钮也选中
-                if($("#tBody input[type='checkbox']").size()==$("#tBody input[type='checkbox']:checked").size()){
-                    $("#chckAll").prop("checked",true);
-                }else{//如果列表中的所有checkbox至少有一个没选中，则"全选"按钮也取消
-                    $("#chckAll").prop("checked",false);
-                }
-            });*/
 			$("#tBody").on("click","input[type='checkbox']",function () {
 				//如果列表中的所有checkbox都选中，则"全选"按钮也选中
 				if($("#tBody input[type='checkbox']").size()==$("#tBody input[type='checkbox']:checked").size()){
@@ -161,7 +147,7 @@
 
 					//发送请求
 					$.ajax({
-						url:'workbench/activity/deleteActivityIds.do',
+						url:'workbench/activity/deleteActivityByIds.do',
 						data:ids,
 						type:'post',
 						dataType:'json',
@@ -191,8 +177,7 @@
 					alert("每次只能修改一条市场活动");
 					return;
 				}
-				//var id=chkedIds.val();
-				//var id=chkedIds.get(0).value;
+
 				var id=chkedIds[0].value;
 				//发送请求
 				$.ajax({
@@ -227,8 +212,27 @@
 				var endDate=$("#edit-endTime").val();
 				var cost=$.trim($("#edit-cost").val());
 				var description=$.trim($("#edit-description").val());
-				//表单验证(作业)
-
+				//表单验证
+				if(owner==""){
+					alert("所有者不能为空");
+					return;
+				}
+				if(name==""){
+					alert("名称不能为空");
+					return;
+				}
+				if(startDate!=""&&endDate!=""){
+					//使用字符串的大小代替日期的大小
+					if(endDate<startDate){
+						alert("结束日期不能比开始日期小");
+						return;
+					}
+				}
+				var regExp=/^(([1-9]\d*)|0)$/;
+				if(!regExp.test(cost)){
+					alert("成本只能为非负整数");
+					return;
+				}
 				//发送请求
 				$.ajax({
 					url:'workbench/activity/saveEditActivity.do',
@@ -248,7 +252,8 @@
 							//关闭模态窗口
 							$("#editActivityModal").modal("hide");
 							//刷新市场活动列表,保持页号和每页显示条数都不变
-							queryActivityByConditionForPage($("#demo_pag1").bs_pagination('getOption', 'currentPage'),$("#demo_pag1").bs_pagination('getOption', 'rowsPerPage'));
+							queryActivityByConditionForPage($("#demo_pag1").bs_pagination('getOption', 'currentPage'),
+									$("#demo_pag1").bs_pagination('getOption', 'rowsPerPage'));
 						}else{
 							//提示信息
 							alert(data.message);

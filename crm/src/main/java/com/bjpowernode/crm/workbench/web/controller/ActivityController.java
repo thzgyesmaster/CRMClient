@@ -88,4 +88,57 @@ public class ActivityController {
         retMap.put("totalRows",totalRows);
         return retMap;
     }
+
+    @RequestMapping("/workbench/activity/deleteActivityByIds.do")
+    @ResponseBody
+    public Object deleteActivityByIds(String[] id){
+        ReturnObject returnObject = new ReturnObject();
+
+        try {
+            int rows = activityService.deleteActivityByIds(id);
+            if(rows > 0){
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+            }else{
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMessage("删除失败~~~~!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMessage("删除失败~~~~!");
+        }
+        return returnObject;
+    }
+
+    @RequestMapping("/workbench/activity/queryActivityById.do")
+    @ResponseBody
+    public Activity queryActivityById(String id){
+        return activityService.queryActivityById(id);
+    }
+
+    @RequestMapping("/workbench/activity/saveEditActivity.do")
+    @ResponseBody
+    public Object saveEditActivity(Activity activity , HttpSession session){
+        ReturnObject returnObject = new ReturnObject();
+
+        //将修改者和修改时间加入activity
+        activity.setEditTime(DateUtils.formateDateTime(new Date()));
+        User user = (User)session.getAttribute(Contants.SESSION_USER);
+        activity.setEditBy(user.getId());
+
+        try {
+            int rows = activityService.saveEditActivity(activity);
+            if(rows > 0){
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+            }else{
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMessage("修改失败~~~!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMessage("修改失败~~~!");
+        }
+        return returnObject;
+    }
 }
