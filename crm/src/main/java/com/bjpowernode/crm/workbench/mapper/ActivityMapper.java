@@ -67,6 +67,8 @@ public interface ActivityMapper {
      */
     List<Activity> selectAllActivitys();
 
+    List<Activity> selectXzActivitys();
+
     /**
      * 批量保存创建的市场活动
      * @param activityList

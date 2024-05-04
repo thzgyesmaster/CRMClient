@@ -49,4 +49,9 @@ public class ActivityServiceImpl implements ActivityService {
         return activityMapper.selectAllActivitys();
     }
 
+    @Override
+    public List<Activity> queryXzActivitys(String[] id) {
+        return activityMapper.selectXzActivitys();
+    }
+
 }

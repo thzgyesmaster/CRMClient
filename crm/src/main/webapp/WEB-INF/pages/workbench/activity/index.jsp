@@ -270,6 +270,35 @@
 				window.location.href="workbench/activity/exportAllActivitys.do";
 			});
 
+			//"选择导出"
+			$("#exportActivityXzBtn").click(function(){
+				//获取列表中被选中的checkbox
+				var chkedIds=$("#tBody input[type='checkbox']:checked");
+				if(chkedIds.size()==0){
+					alert("请选择要修改的市场活动");
+					return;
+				}
+
+				var ids="";
+				$.each(chekkedIds,function () {//id=xxxx&id=xxx&.....&id=xxx&
+					ids+="id="+this.value+"&";
+				});
+				ids=ids.substr(0,ids.length-1);//id=xxxx&id=xxx&.....&id=xxx
+
+				$.ajax({
+					type: "post",
+					url: "workbench/activity/exportXzActivity.do",
+					data: ids,
+					dataType: "text",
+					success: function(data) {
+						alert("成功下载!!!");
+					},
+					error: function(err) {
+						alert("下载失败~~~");
+					}
+				});
+			})
+
 			//给"导入"按钮添加单击事件
 			$("#importActivityBtn").click(function () {
 				//收集参数

@@ -149,44 +149,6 @@ public class ActivityController {
         return returnObject;
     }
 
-    @RequestMapping("/workbench/activity/exportAllActivitys.do")
-    public void exportAllActivitys(HttpServletResponse response) throws Exception{
-        List<Activity> activities = activityService.queryAllActivitys();
-        HSSFWorkbook wb = ExportActivitys.AllActivitys(activities); //使用apache.poi插件生成excel
-
-//        FileOutputStream os = new FileOutputStream("/home/lifu/activityList.xls"); //写入磁盘，效率低
-//        wb.write(os);
-//        os.close();
-
-
-        //把生成excel文件下载到客户端
-        //1.设置响应类型
-        response.setContentType("application/octet-stream;charset=UTF-8");
-
-        //2.获取输出流 和 输入流
-        //读取excel文件(inputStream),把文件输出到浏览器(outPutStream)
-        OutputStream out = response.getOutputStream(); //字节输出流
-
-
-        //3.设置响应头信息,使浏览器收到响应信息后,直接激活文件下载窗口
-        //attachment:附件形式
-        response.addHeader("Content-Disposition","attachment;filename=studentList.xls");
-
-
-//        读磁盘,效率低
-//        FileInputStream fis = new FileInputStream("/home/lifu/activityList.xls");
-//        byte[] buff = new byte[256];
-//        int len = 0;
-//        while( (len = fis.read(buff)) != -1){
-//            out.write(buff,0,len);
-//        }
-//
-//        fis.close();
-        wb.write(out); //内存到内存
-        wb.close();
-        out.flush();//tomcat会关
-    }
-
     @RequestMapping("/workbench/activity/fileDownload.do") //测试下载文件
     public void fileDownload(HttpServletResponse response) throws Exception {         //使用流返回数据
 
@@ -211,5 +173,59 @@ public class ActivityController {
         out.flush();//tomcat会关
     }
 
+
+    @RequestMapping("/workbench/activity/exportAllActivitys.do")
+    public void exportAllActivitys(HttpServletResponse response) throws Exception{
+        List<Activity> activities = activityService.queryAllActivitys();
+        HSSFWorkbook wb = ExportActivitys.AllActivitys(activities); //使用apache.poi插件生成excel
+
+//        FileOutputStream os = new FileOutputStream("/home/lifu/activityList.xls"); //写入磁盘，效率低
+//        wb.write(os);
+//        os.close();
+
+
+        //把生成excel文件下载到客户端
+        //1.设置响应类型
+        response.setContentType("application/octet-stream;charset=UTF-8");
+
+        //2.获取输出流 和 输入流
+        //读取excel文件(inputStream),把文件输出到浏览器(outPutStream)
+        OutputStream out = response.getOutputStream(); //字节输出流
+
+
+        //3.设置响应头信息,使浏览器收到响应信息后,直接激活文件下载窗口
+        //attachment:附件形式
+        response.addHeader("Content-Disposition","attachment;filename=AllActivityList.xls");
+
+
+//        读磁盘,效率低
+//        FileInputStream fis = new FileInputStream("/home/lifu/activityList.xls");
+//        byte[] buff = new byte[256];
+//        int len = 0;
+//        while( (len = fis.read(buff)) != -1){
+//            out.write(buff,0,len);
+//        }
+//
+//        fis.close();
+        wb.write(out); //内存到内存
+        wb.close();
+        out.flush();//tomcat会关
+    }
+
+    @RequestMapping("/workbench/activity/exportXzActivity.do")
+    @ResponseBody
+    public void exportXzActivity(String[] id , HttpServletResponse response) throws Exception{
+        List<Activity> activities = activityService.queryXzActivitys(id);
+        HSSFWorkbook wb = ExportActivitys.AllActivitys(activities); //使用apache.poi插件生成excel
+
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        response.setHeader("Content-Disposition","attachment;filename=XzActivityList.xls");
+
+        OutputStream out = response.getOutputStream(); //字节输出流
+
+        wb.write(out);
+        wb.close();
+        out.flush();
+    }
 
 }
