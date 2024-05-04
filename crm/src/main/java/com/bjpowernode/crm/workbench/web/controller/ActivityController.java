@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -141,4 +146,30 @@ public class ActivityController {
         }
         return returnObject;
     }
+
+    @RequestMapping("/workbench/activity/fileDownload.do")
+    public void fileDownload(HttpServletResponse response) throws Exception {         //使用流返回数据
+
+        //1.设置响应类型
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        //2.获取输出流
+        OutputStream out = response.getOutputStream(); //字节流
+
+        //设置响应头信息,使浏览器收到响应信息后,直接激活文件下载窗口
+        //attachment:附件形式
+        response.addHeader("Content-Disposition","attachment;filename=studentList.xls");
+
+        //读取excel文件(inputStream),把文件输出到浏览器(outPutStream)
+        FileInputStream fis = new FileInputStream("/home/lifu/studentList.xls");
+        byte[] buff = new byte[256];
+        int len = 0;
+        while( (len = fis.read(buff)) != -1){
+            out.write(buff,0,len);
+        }
+
+        fis.close();
+        out.flush();//tomcat会关
+    }
+
+
 }
