@@ -258,11 +258,10 @@
            join tbl_user u1 on a.owner = u1.id
            join tbl_user u2  on a.create_by = u2.id
            left join tbl_user u3 on a.edit_by = u3.id
-    where id in
+    where a.id in
     <foreach collection="array" open="(" separator="," close=")" item="id">
       #{id}
     </foreach>
-    order by a.create_time desc
   </select>
 
   <insert id="insertActivityByList" parameterType="com.bjpowernode.crm.workbench.domain.Activity">

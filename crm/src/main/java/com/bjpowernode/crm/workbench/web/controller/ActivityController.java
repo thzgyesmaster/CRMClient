@@ -22,10 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -212,20 +209,20 @@ public class ActivityController {
         out.flush();//tomcat会关
     }
 
-    @RequestMapping("/workbench/activity/exportXzActivity.do")
-    @ResponseBody
+    @RequestMapping("/workbench/activity/exportSelectActivities.do")
     public void exportXzActivity(String[] id , HttpServletResponse response) throws Exception{
+        System.out.println(Arrays.toString(id));
         List<Activity> activities = activityService.queryXzActivitys(id);
-        HSSFWorkbook wb = ExportActivitys.AllActivitys(activities); //使用apache.poi插件生成excel
+        HSSFWorkbook wb = ExportActivitys.AllActivitys(activities);//使用apache.poi插件生成excel
+        OutputStream out = response.getOutputStream();
 
         response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Content-Disposition","attachment;filename=XzActivityList.xls");
 
-        OutputStream out = response.getOutputStream(); //字节输出流
-
         wb.write(out);
         wb.close();
         out.flush();
+
     }
 
 }
