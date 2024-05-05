@@ -3,7 +3,7 @@ package com.bjpowernode.crm.workbench.web.controller;
 import com.bjpowernode.crm.commons.contants.Contants;
 import com.bjpowernode.crm.commons.domain.ReturnObject;
 import com.bjpowernode.crm.commons.utils.DateUtils;
-import com.bjpowernode.crm.commons.utils.ExportActivitys;
+import com.bjpowernode.crm.commons.utils.HSSFUtils;
 import com.bjpowernode.crm.commons.utils.UUIDUtils;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.settings.service.UserService;
@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -174,7 +175,7 @@ public class ActivityController {
     @RequestMapping("/workbench/activity/exportAllActivitys.do")
     public void exportAllActivitys(HttpServletResponse response) throws Exception{
         List<Activity> activities = activityService.queryAllActivitys();
-        HSSFWorkbook wb = ExportActivitys.AllActivitys(activities); //使用apache.poi插件生成excel
+        HSSFWorkbook wb = HSSFUtils.getActivityList(activities); //使用apache.poi插件生成excel
 
 //        FileOutputStream os = new FileOutputStream("/home/lifu/activityList.xls"); //写入磁盘，效率低
 //        wb.write(os);
@@ -213,7 +214,7 @@ public class ActivityController {
     public void exportXzActivity(String[] id , HttpServletResponse response) throws Exception{
         System.out.println(Arrays.toString(id));
         List<Activity> activities = activityService.queryXzActivitys(id);
-        HSSFWorkbook wb = ExportActivitys.AllActivitys(activities);//使用apache.poi插件生成excel
+        HSSFWorkbook wb = HSSFUtils.getActivityList(activities);//使用apache.poi插件生成excel
         OutputStream out = response.getOutputStream();
 
         response.setContentType("application/octet-stream;charset=UTF-8");
@@ -225,4 +226,83 @@ public class ActivityController {
 
     }
 
+
+    //文件上传测试
+    @RequestMapping("/workbench/activity/fileUpload.do")
+    @ResponseBody
+    public Object fileUpload(String userName, MultipartFile myFile) throws Exception {
+        System.out.println("userName = " + userName);
+
+        //获取文件名
+        String originalFilename = myFile.getOriginalFilename();
+
+        File file = new File("/home/lifu/firefox/" + originalFilename);
+        myFile.transferTo(file);
+
+        ReturnObject returnObject = new ReturnObject();
+        returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+        returnObject.setMessage("上传成功!!!");
+        return returnObject;
+    }
+
+    @RequestMapping("/workbench/activity/importActivity.do")
+    @ResponseBody
+    public Object importActivity(MultipartFile activityFile , HttpSession session){
+        User user = (User)session.getAttribute(Contants.SESSION_USER);
+        ReturnObject returnObject = new ReturnObject();
+        try {
+            //将excel文件写入磁盘文件
+//            String originalFilename = activityFile.getOriginalFilename();
+//            File file = new File("/home/lifu/firefox/" + originalFilename);
+//            activityFile.transferTo(file);
+//
+//            InputStream is = new FileInputStream("/home/lifu/firefox/" + originalFilename);
+
+            InputStream is = activityFile.getInputStream(); //由内存到内存
+            HSSFWorkbook wb = new HSSFWorkbook(is);
+            HSSFSheet sheet = wb.getSheetAt(0);
+
+            HSSFRow row = null;
+            HSSFCell cell = null;
+            Activity activity = null;
+
+            List<Activity> activityList = new ArrayList<>();
+
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                row = sheet.getRow(i);
+                activity = new Activity();
+                activity.setId(UUIDUtils.getUUID());//id需要唯一非空,不能由用户输入
+                activity.setOwner(user.getId()); //使 当前登录用户 为导入的市场活动所有者
+                activity.setCreateTime(DateUtils.formateDateTime(new Date()));
+                activity.setCreateBy(user.getId());
+
+                for (int j = 0; j < row.getLastCellNum(); j++) {
+                    cell = row.getCell(j);
+                    String cellValue = HSSFUtils.getCellValueForStr(cell);
+                    if (j == 0) {
+                        activity.setName(cellValue);
+                    } else if (j == 1) {
+                        activity.setStartDate(cellValue);
+                    } else if (j == 2) {
+                        activity.setEndDate(cellValue);
+                    } else if (j == 3) {
+                        activity.setCost(cellValue);
+                    } else if (j == 4) {
+                        activity.setDescription(cellValue);
+                    }
+                }
+                activityList.add(activity);
+            }
+
+            int ret = activityService.saveCreateActivityByList(activityList);
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+            returnObject.setRetData(ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMessage("系统繁忙...");
+        }
+
+        return returnObject;
+    }
 }
