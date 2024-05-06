@@ -167,7 +167,7 @@
   </update>
 
   <select id="selectActivityRemarkForDetailByActivityId" resultMap="BaseResultMap">
-    select ar.id , ar.note_content , ar.create_time , u1.id as create_by , ar.edit_time , u2.id as edit_by , ar.edit_flag
+    select ar.id , ar.note_content , ar.create_time , u1.name as create_by , ar.edit_time , u2.name as edit_by , ar.edit_flag
     from tbl_activity_remark ar
     join tbl_user u1 on ar.create_by = u1.id
     left join tbl_user u2 on ar.edit_by = u2.id
@@ -181,12 +181,13 @@
   </insert>
 
   <delete id="deleteActivityRemarkById" parameterType="string">
-    delete from tbl_activity_remark where id=#{id}
+    delete from tbl_activity_remark
+    where id = #{id}
   </delete>
 
-    <update id="updateActivityRemark" parameterType="com.bjpowernode.crm.workbench.domain.ActivityRemark">
-      update tbl_activity_remark
-      set note_content=#{noteContent},edit_time=#{editTime},edit_by=#{editBy},edit_flag=#{editFlag}
-      where id=#{id}
-    </update>
+  <update id="updateActivityRemark" parameterType="com.bjpowernode.crm.workbench.domain.ActivityRemark">
+    update tbl_activity_remark set
+    note_content = #{noteContent} , edit_time = #{editTime} , edit_by = #{editBy} , edit_flag = #{editFlag}
+    where id = #{id}
+  </update>
 </mapper>
