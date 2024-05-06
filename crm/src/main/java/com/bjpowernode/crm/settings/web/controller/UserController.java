@@ -50,8 +50,7 @@ public class UserController {
             returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
             returnObject.setMessage("用户名或者密码错误");
         }else{//进一步判断账号是否合法
-            //user.getExpireTime()   //2019-10-20
-            //        new Date()     //2020-09-10
+
             if(DateUtils.formateDateTime(new Date()).compareTo(user.getExpireTime())>0){
                 //登录失败，账号已过期
                 returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
