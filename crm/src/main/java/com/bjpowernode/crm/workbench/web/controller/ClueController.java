@@ -10,8 +10,10 @@ import com.bjpowernode.crm.settings.service.DicValueService;
 import com.bjpowernode.crm.settings.service.UserService;
 import com.bjpowernode.crm.workbench.domain.Activity;
 import com.bjpowernode.crm.workbench.domain.Clue;
+import com.bjpowernode.crm.workbench.domain.ClueActivityRelation;
 import com.bjpowernode.crm.workbench.domain.ClueRemark;
 import com.bjpowernode.crm.workbench.service.ActivityService;
+import com.bjpowernode.crm.workbench.service.ClueActivityRelationService;
 import com.bjpowernode.crm.workbench.service.ClueRemarkService;
 import com.bjpowernode.crm.workbench.service.ClueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class ClueController {
@@ -41,6 +42,9 @@ public class ClueController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private ClueActivityRelationService clueActivityRelationService;
 
     @RequestMapping("/workbench/clue/index.do")
     public String index(HttpServletRequest request){
@@ -87,17 +91,61 @@ public class ClueController {
     }
 
     @RequestMapping("/workbench/clue/detailClue.do")
-    public String detailClue(String id , HttpServletRequest request){ //线索id
+    public String detailClue(String id,HttpServletRequest request){
+        //调用service层方法，查询数据
         Clue clue = clueService.queryClueForDetailById(id);
-
         List<ClueRemark> remarkList = clueRemarkService.queryClueRemarkForDetailByClueId(id);
-
         List<Activity> activityList = activityService.queryActivityForDetailByClueId(id);
-
-        request.setAttribute("clue" , clue);
-        request.setAttribute("remarkList" , remarkList);
-        request.setAttribute("activityList" , activityList);
-
+        //把数据保存到request中
+        request.setAttribute("clue",clue);
+        request.setAttribute("remarkList",remarkList);
+        request.setAttribute("activityList",activityList);
+        //请求转发
         return "workbench/clue/detail";
+    }
+
+    @RequestMapping("/workbench/clue/queryActivityForDetailByNameClueId.do")
+    @ResponseBody
+    public Object queryActivityForDetailByNameClueId(String activityName, String clueId){
+        //封装参数
+        Map<String,Object> map = new HashMap<>();
+        map.put("activityName" , activityName);
+        map.put("clueId" , clueId);
+
+        return activityService.queryActivityForDetailByNameClueId(map);
+    }
+
+    @RequestMapping("/workbench/clue/saveBund.do")
+    @ResponseBody
+    public Object saveBund(String[] activityId , String clueId){
+        List<ClueActivityRelation> relationList = new ArrayList<>();
+        ClueActivityRelation car = null;
+        //封装参数
+        for (String ai : activityId) {
+            car = new ClueActivityRelation();
+            car.setActivityId(ai);
+            car.setClueId(clueId);
+            car.setId(UUIDUtils.getUUID());
+            relationList.add(car);
+        }
+
+        ReturnObject returnObject = new ReturnObject();
+        try {
+            int ret = clueActivityRelationService.saveCreateClueActivityRelationByList(relationList);
+            if(ret > 0){
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+
+                List<Activity> activityList = activityService.queryActivityForDetailByIds(activityId);
+                returnObject.setRetData(activityList);
+            }else{
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMessage("系统繁忙...");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMessage("系统繁忙...");
+        }
+        return returnObject;
     }
 }

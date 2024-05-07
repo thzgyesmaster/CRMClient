@@ -315,13 +315,14 @@
     </select>
 
   <select id="selectActivityForConvertByNameClueId" parameterType="map" resultMap="BaseResultMap">
-    select a.id,a.name,a.start_date,a.end_date,u.name as owner
+    select a.id , u1.name as owner , a.name , a.start_date , a.end_date
     from tbl_activity a
-    join tbl_user u on a.owner=u.id
-    where a.name like '%' #{activityName} '%' and a.id in (
-       select activity_id
-       from tbl_clue_activity_relation
-       where clue_id=#{clueId}
+    join tbl_user u1 on a.owner = u1.id
+    where a.name like '%' #{activityName} '%' and a.id not in (
+        select activity_id
+        from tbl_clue_activity_relation
+        where clue_id = #{clueId}
     )
   </select>
+
 </mapper>
