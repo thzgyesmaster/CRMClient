@@ -75,7 +75,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
                     if(data.code=="1"){
                         //关闭模态窗口
                         $("#createClueModal").modal("hide");
-                        //刷新线索列表，显示第一页数据，保持每页显示条数不变(作业)
+                        //刷新线索列表，显示第一页数据，保持每页显示条数不变
 
                     }else{
                         //提示信息
