@@ -484,18 +484,18 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 					<tbody>
 						<tr>
 							<td><input type="checkbox" /></td>
-							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/clue/detailClue.do?id=a67c52e8702e4a4e89ab47d1751fc78b';">张三教授</a></td>
-							<td>动力节点</td>
+							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/clue/detailClue.do?id=5ed72f8330ee408a81b2676e8ad7c4fd';">坤少女士</a></td>
+							<td>丁真电子烟</td>
 							<td>010-84846003</td>
 							<td>12345678901</td>
-							<td>广告</td>
+							<td>烟友大会</td>
 							<td>zhangsan</td>
 							<td>已联系</td>
 						</tr>
                         <tr class="active">
                             <td><input type="checkbox" /></td>
-                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">李四先生</a></td>
-                            <td>动力节点</td>
+                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/clue/detailClue.do?id=f99aa1765489481abbe95aa07c0e5fc5';">李四先生</a></td>
+                            <td>坤坤大百货</td>
                             <td>010-84846003</td>
                             <td>12345678901</td>
                             <td>广告</td>
