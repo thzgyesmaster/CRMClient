@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class HSSFUtils {
 
-    public static HSSFWorkbook getActivityList(List<Activity> activities){
+    public static HSSFWorkbook getActivityList(List<Activity> activityList){
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("市场活动列表");
         HSSFRow row = sheet.createRow(0);//第一行
@@ -52,10 +52,10 @@ public class HSSFUtils {
         cell.setCellValue("修改者");
 
 
-        if(activities!= null && activities.size() > 0){
+        if(activityList!= null && activityList.size() > 0){
             Activity activity = null;
-            for (int i = 0; i < activities.size(); i++) {
-                activity = activities.get(i);
+            for (int i = 0; i < activityList.size(); i++) {
+                activity = activityList.get(i);
                 row = sheet.createRow(i + 1);
                 //每行有11列
                 cell = row.createCell(0);

@@ -106,9 +106,17 @@ public class TranController {
         List<TranRemark> tranRemarkList = tranRemarkService.queryTranRemarkForDetailByTranId(id);
         List<TranHistory> tranHistoryList = tranHistoryService.selectTranHistoryForDetailByTranId(id);
 
+        ResourceBundle bundle = ResourceBundle.getBundle("possibility");
+        String possibility = bundle.getString(tran.getStage());
+        tran.setPossibility(possibility);
+
         request.setAttribute("tran" , tran);
         request.setAttribute("tranRemarkList" , tranRemarkList);
         request.setAttribute("tranHistoryList" , tranHistoryList);
+
+        //交易阶段
+        List<DicValue> stageList = dicValueService.queryDicValueByTypeCode("stage");
+        request.setAttribute("stageList",stageList);
 
         return "workbench/transaction/detail";
     }

@@ -144,7 +144,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 					<tbody>
 						<tr>
 							<td><input type="checkbox" /></td>
-							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/transaction/detailTran.do?id=3990af11a4c84c3e95421a32b2724e26';">京东-交易测试03</a></td>
+							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/transaction/tranDetail.do?id=22a7a3b907f1453daedbd2d98738d0ec';">丁真</a></td>
 							<td>动力节点</td>
 							<td>谈判/复审</td>
 							<td>新业务</td>
@@ -154,7 +154,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 						</tr>
                         <tr class="active">
                             <td><input type="checkbox" /></td>
-                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">动力节点-交易01</a></td>
+                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/transaction/tranDetail.do?id=df52ca6936c64dfe860bf534eab49927';">动力节点-交易01</a></td>
                             <td>动力节点</td>
                             <td>谈判/复审</td>
                             <td>新业务</td>

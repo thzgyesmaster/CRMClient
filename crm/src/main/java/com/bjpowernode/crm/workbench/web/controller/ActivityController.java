@@ -18,6 +18,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -101,11 +102,11 @@ public class ActivityController {
 
     @RequestMapping("/workbench/activity/deleteActivityByIds.do")
     @ResponseBody
-    public Object deleteActivityByIds(String[] id){
+    public Object deleteActivityByIds(String[] ids){
         ReturnObject returnObject = new ReturnObject();
 
         try {
-            int ret = activityService.deleteActivityByIds(id);
+            int ret = activityService.deleteActivityByIds(ids);
             if(ret > 0){
                 returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
             }else{
@@ -179,8 +180,8 @@ public class ActivityController {
 
     @RequestMapping("/workbench/activity/exportAllActivitys.do")
     public void exportAllActivitys(HttpServletResponse response) throws Exception{
-        List<Activity> activities = activityService.queryAllActivitys();
-        HSSFWorkbook wb = HSSFUtils.getActivityList(activities); //使用apache.poi插件生成excel
+        List<Activity> activityList = activityService.queryAllActivitys();
+        HSSFWorkbook wb = HSSFUtils.getActivityList(activityList); //使用apache.poi插件生成excel
 
 //        FileOutputStream os = new FileOutputStream("/home/lifu/activityList.xls"); //写入磁盘，效率低
 //        wb.write(os);
@@ -189,9 +190,10 @@ public class ActivityController {
 
         //把生成excel文件下载到客户端
         //1.设置响应类型
-        response.setContentType("application/octet-stream;charset=UTF-8");
+        response.setContentType("application/octet-stream;charset=UTF-8"); //告知浏览器这是一个字节流，浏览器处理字节流的默认方式就是下载。
 
-        //2.获取输出流 和 输入流
+
+        //2.获取输出流
         //读取excel文件(inputStream),把文件输出到浏览器(outPutStream)
         OutputStream out = response.getOutputStream(); //字节输出流
 
@@ -216,10 +218,9 @@ public class ActivityController {
     }
 
     @RequestMapping("/workbench/activity/exportSelectActivities.do")
-    public void exportXzActivity(String[] id , HttpServletResponse response) throws Exception{
-        System.out.println(Arrays.toString(id));
-        List<Activity> activities = activityService.queryXzActivitys(id);
-        HSSFWorkbook wb = HSSFUtils.getActivityList(activities);//使用apache.poi插件生成excel
+    public void exportXzActivity( String[] id , HttpServletResponse response) throws Exception{ //@RequestParam 暂时不加
+        List<Activity> activityList = activityService.queryXzActivitys(id);
+        HSSFWorkbook wb = HSSFUtils.getActivityList(activityList);//使用apache.poi插件生成excel
         OutputStream out = response.getOutputStream();
 
         response.setContentType("application/octet-stream;charset=UTF-8");
@@ -284,7 +285,7 @@ public class ActivityController {
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     cell = row.getCell(j);
                     String cellValue = HSSFUtils.getCellValueForStr(cell);
-                    if (j == 0) {
+                    if (j == 0) { //规定excel的格式才能这样写
                         activity.setName(cellValue);
                     } else if (j == 1) {
                         activity.setStartDate(cellValue);
@@ -296,12 +297,12 @@ public class ActivityController {
                         activity.setDescription(cellValue);
                     }
                 }
-                activityList.add(activity);
+                activityList.add(activity); //每一行就是一个activity对象
             }
 
             int ret = activityService.saveCreateActivityByList(activityList);
             returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
-            returnObject.setRetData(ret);
+            returnObject.setRetData(ret); //用于前端显示导入了几条信息
         } catch (Exception e) {
             e.printStackTrace();
             returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
@@ -316,7 +317,7 @@ public class ActivityController {
         Activity activity = activityService.queryActivityForDetailById(id);
         List<ActivityRemark> remarkList = activityRemarkService.queryActivityRemarkForDetailByActivityId(id);
 
-        request.setAttribute("activity" , activity);
+        request.setAttribute("activity", activity);
         request.setAttribute("remarkList" , remarkList);
 
         return "workbench/activity/detail";
