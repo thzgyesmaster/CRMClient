@@ -5,6 +5,9 @@
       <map>
         <entry key="file://$PROJECT_DIR$/crm/src/main/webapp/WEB-INF/pages/workbench/activity/detail.jsp" value="file://$PROJECT_DIR$/crm/src/main/webapp/WEB-INF/pages/workbench/activity" />
         <entry key="file://$PROJECT_DIR$/crm/src/main/webapp/WEB-INF/pages/workbench/activity/index.jsp" value="file://$PROJECT_DIR$/crm/src/main/webapp/WEB-INF/pages/workbench/activity" />
+        <entry key="file://$PROJECT_DIR$/crm/src/main/webapp/WEB-INF/pages/workbench/clue/detail.jsp" value="file://$PROJECT_DIR$/crm/src/main/webapp/WEB-INF/pages/workbench/clue" />
+        <entry key="file://$PROJECT_DIR$/crm/src/main/webapp/WEB-INF/pages/workbench/transaction/detail.jsp" value="file://$PROJECT_DIR$/crm/src/main/webapp/WEB-INF/pages/workbench/transaction" />
+        <entry key="file://$PROJECT_DIR$/crm/src/main/webapp/WEB-INF/pages/workbench/transaction/index.jsp" value="file://$PROJECT_DIR$/crm/src/main/webapp/WEB-INF/pages/workbench/transaction" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/settings/qx/index.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/settings/qx" />
       </map>
     </option>

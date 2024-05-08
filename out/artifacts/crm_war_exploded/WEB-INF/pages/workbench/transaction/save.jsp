@@ -52,7 +52,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 				//var customerName=$("#customerName").val();
 				//发送查询请求
 				$.ajax({
-					url:'workbench/transaction/queryCustomerNameByName.do',
+					url:'workbench/transaction/',
 					data:{
 						customerName:jquery
 					},
@@ -152,15 +152,15 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 							<tr>
 								<td><input type="radio" name="activity"/></td>
 								<td>发传单</td>
-								<td>2024-10-10</td>
-								<td>2024-10-20</td>
+								<td>2024-5-5</td>
+								<td>2024-10-5</td>
 								<td>zhangsan</td>
 							</tr>
 							<tr>
 								<td><input type="radio" name="activity"/></td>
 								<td>发传单</td>
 								<td>2024-10-10</td>
-								<td>2024-10-20</td>
+								<td>2024-10-5</td>
 								<td>zhangsan</td>
 							</tr>
 						</tbody>

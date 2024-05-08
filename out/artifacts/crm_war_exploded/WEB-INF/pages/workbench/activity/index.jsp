@@ -85,7 +85,7 @@
 							//提示信息
 							alert(data.message);
 							//模态窗口不关闭
-							$("#createActivityModal").modal("show");//可以不写。
+							$("#createActivityModal").modal("show");
 						}
 					}
 				});
@@ -302,7 +302,7 @@
 				//FormData最大的优势是不但能提交文本数据，还能提交二进制数据
 				var formData=new FormData();
 				formData.append("activityFile",activityFile);
-				formData.append("userName","张三");
+				formData.append("userName","张三"); //写死了
 
 				//发送请求
 				$.ajax({
