@@ -152,7 +152,7 @@
 				if(window.confirm("确定删除吗？")){
 					//发送请求
 					$.ajax({
-						url:'workbench/clue/saveUnbund.do',
+						url:'workbench/clue/deleteClueActivityRelationByClueIdActivityId.do',
 						data:{
 							activityId:activityId,
 							clueId:clueId

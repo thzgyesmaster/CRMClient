@@ -85,7 +85,7 @@
 							//提示信息
 							alert(data.message);
 							//模态窗口不关闭
-							$("#createActivityModal").modal("show");//可以不写。
+							$("#createActivityModal").modal("show");
 						}
 					}
 				});

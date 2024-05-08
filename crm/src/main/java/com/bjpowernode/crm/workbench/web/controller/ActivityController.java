@@ -54,7 +54,7 @@ public class ActivityController {
         //封装参数
         activity.setId(UUIDUtils.getUUID());
         activity.setCreateTime(DateUtils.formateDateTime(new Date()));
-        activity.setCreateBy(user.getId());
+        activity.setCreateBy(user.getName());
 
         ReturnObject returnObject=new ReturnObject();
         try {
@@ -105,8 +105,8 @@ public class ActivityController {
         ReturnObject returnObject = new ReturnObject();
 
         try {
-            int rows = activityService.deleteActivityByIds(id);
-            if(rows > 0){
+            int ret = activityService.deleteActivityByIds(id);
+            if(ret > 0){
                 returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
             }else{
                 returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
